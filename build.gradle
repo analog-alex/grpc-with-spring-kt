@@ -1,0 +1,59 @@
+buildscript {
+    ext {
+        kotlinVersion = "1.4.20"
+        springBootVersion = "2.4.3"
+        grpcVersion = '1.25.0'
+    }
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+    }
+}
+
+group = 'io.analog.alex'
+version = '1.0.0'
+
+allprojects {
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        jcenter()
+    }
+
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-actuator")
+        implementation("org.springframework.boot:spring-boot-starter-web")
+
+        implementation("io.grpc:grpc-netty:${grpcVersion}")
+        implementation("io.grpc:grpc-protobuf:${grpcVersion}")
+        implementation("io.grpc:grpc-stub:${grpcVersion}")
+
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
