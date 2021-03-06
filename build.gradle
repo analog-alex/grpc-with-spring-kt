@@ -3,6 +3,7 @@ buildscript {
         kotlinVersion = "1.4.20"
         springBootVersion = "2.4.3"
         grpcVersion = '1.25.0'
+        protocVersion = '3.6.1'
     }
     repositories {
         mavenCentral()
@@ -14,6 +15,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+        classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.15")
     }
 }
 
@@ -25,6 +27,7 @@ allprojects {
     apply plugin: 'kotlin-spring'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.google.protobuf'
 
     repositories {
         mavenCentral()
@@ -55,5 +58,17 @@ allprojects {
 
     test {
         useJUnitPlatform()
+    }
+
+    protobuf {
+        protoc {
+            artifact = "com.google.protobuf:protoc:${protocVersion}"
+        }
+        plugins {
+            grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" }
+        }
+        generateProtoTasks {
+            all()*.plugins { grpc {} }
+        }
     }
 }
