@@ -12,7 +12,3 @@ message GreetingRequest {
 message GreetingResponse {
   string greet = 1;
 }
-
-service GreetingService {
-  rpc greet(GreetingRequest) returns (GreetingResponse);
-}
