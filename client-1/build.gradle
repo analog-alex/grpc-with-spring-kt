@@ -1,0 +1,8 @@
+apply plugin: 'java'
+
+sourceSets {
+    main.java.srcDirs += 'build/generated/source/proto/main/java'
+    main.java.srcDirs += 'build/generated/source/proto/main/grpc'
+}
+
+dependencies { }

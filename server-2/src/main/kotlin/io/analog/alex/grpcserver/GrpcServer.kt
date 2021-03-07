@@ -6,11 +6,12 @@ import io.grpc.ServerBuilder
 
 class GrpcServer {
     fun start(port: Int) {
-        val server: Server = ServerBuilder
-            .forPort(port)
-            .addService(GreetingService())
-            .build()
+        val server = ServerBuilder.forPort(port).addService(GreetingService()).build()
         server.start()
         server.awaitTermination()
     }
+}
+
+fun main() {
+    GrpcServer().start(8081)
 }

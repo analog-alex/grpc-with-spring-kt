@@ -29,7 +29,7 @@ class HttpController(
     private fun interact(
         interactor: Interactor<GreetingRequest, GreetingResponse>,
         name: String
-    ) : String {
+    ): String {
         logger.info(
             "Greeting request for name {}", name
         )
@@ -43,5 +43,4 @@ class HttpController(
                 .build()
         ).greet
     }
-
 }

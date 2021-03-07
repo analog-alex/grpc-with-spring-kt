@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class InteractorOnGrpc : Interactor<GreetingRequest, GreetingResponse> {
     override fun interact(input: GreetingRequest): GreetingResponse {
-        val channel = ManagedChannelBuilder.forAddress("localhost",8080)
+        val channel = ManagedChannelBuilder.forAddress("localhost", 8081)
             .usePlaintext()
             .build()
 

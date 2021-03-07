@@ -1,8 +1,8 @@
-package io.analog.alex.grpcserver.web
+package io.analog.alex.protobufserver.web
 
 import io.analog.alex.grpcserver.GreetingRequest
 import io.analog.alex.grpcserver.GreetingResponse
-import io.analog.alex.grpcserver.configuration.MediaTypeExtended
+import io.analog.alex.protobufserver.configuration.MediaTypeExtended
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

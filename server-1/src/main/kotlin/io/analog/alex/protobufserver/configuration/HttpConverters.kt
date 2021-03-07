@@ -1,4 +1,4 @@
-package io.analog.alex.grpcserver.configuration
+package io.analog.alex.protobufserver.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

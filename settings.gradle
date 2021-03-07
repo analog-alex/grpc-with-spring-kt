@@ -1,3 +1,4 @@
 rootProject.name = 'grpc-with-spring'
 include 'server-1'
 include 'server-2'
+include 'client-1'
