@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package io.analog.alex.telephony;
+
+option java_multiple_files = true;
+option java_outer_classname = "TelephonyProto";
+
+enum Status {
+  NONE = 0;
+  PICKED_UP = 1;
+  ON_GOING = 2;
+  TERMINATED = 3;
+}
+
+message Call {
+  string id = 1;
+  string address = 2;
+  Status status = 3;
+  int32 order = 4;
+}
+
+message Action {
+  string name = 1;
+  Status status = 2;
+}
+
+service TelephonyService {
+  rpc call (stream Call) returns (stream Action) {}
+}
