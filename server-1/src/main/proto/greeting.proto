@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package io.analog.alex.grpcserver;
+package io.analog.alex.protobufserver;
 
 option java_multiple_files = true;
 option java_outer_classname = "GreetingProto";
@@ -15,8 +15,3 @@ message GreetingRequest {
 message GreetingResponse {
   string greet = 1;
 }
-
-service GreetingService {
-  rpc sayHello (GreetingRequest) returns (GreetingResponse) {}
-}
-

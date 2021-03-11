@@ -16,4 +16,9 @@ class RestTemplateConfiguration {
             )
         )
     }
+
+    @Bean
+    fun restTemplateJson(): RestTemplate {
+        return RestTemplate()
+    }
 }

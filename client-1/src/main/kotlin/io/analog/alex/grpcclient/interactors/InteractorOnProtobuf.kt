@@ -16,7 +16,7 @@ class InteractorOnProtobuf(
     override fun interact(input: GreetingRequest): GreetingResponse {
         val response = restTemplateProtobuf
             .postForEntity("http://localhost:8080/greeting", input, GreetingResponse::class.java)
-            .also { logger.info("Response code was {}", it.statusCode) }
+            .also { logger.debug("Response code was {}", it.statusCode) }
 
         return response.body ?: throw RuntimeException("Oops!")
     }

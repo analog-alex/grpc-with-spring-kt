@@ -3,7 +3,10 @@ package io.analog.alex.protobufserver.web
 import io.analog.alex.grpcserver.GreetingRequest
 import io.analog.alex.grpcserver.GreetingResponse
 import io.analog.alex.protobufserver.configuration.MediaTypeExtended
+import io.analog.alex.protobufserver.models.JsonRequest
+import io.analog.alex.protobufserver.models.JsonResponse
 import org.slf4j.LoggerFactory
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -29,5 +32,23 @@ class ProtobufController {
             .newBuilder()
             .setGreet("We are greeting ${request.name}, with a message: ${request.message}")
             .build()
+    }
+
+    /**
+     * json alternative endpoint
+     */
+    @PostMapping(
+        value = ["greeting-json"],
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    fun greetJson(@RequestBody request: JsonRequest): JsonResponse {
+        logger.info(
+            "Greet {} with order {}", request.author, request.order
+        )
+
+        return JsonResponse(
+            greet = "We are greeting ${request.name}, with a message: ${request.message}"
+        )
     }
 }

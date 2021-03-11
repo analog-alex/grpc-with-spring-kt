@@ -3,9 +3,10 @@ package io.analog.alex.grpcclient.web
 import io.analog.alex.grpcclient.configuration.ActionOrderSingleton
 import io.analog.alex.grpcclient.interactors.Interactor
 import io.analog.alex.grpcclient.interactors.InteractorOnGrpc
+import io.analog.alex.grpcclient.interactors.InteractorOnJson
 import io.analog.alex.grpcclient.interactors.InteractorOnProtobuf
+import io.analog.alex.grpcclient.models.JsonRequest
 import io.analog.alex.grpcserver.GreetingRequest
-import io.analog.alex.grpcserver.GreetingResponse
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -13,34 +14,51 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class HttpController(
+    private val interactorOnJson: InteractorOnJson,
     private val interactorOnProtobuf: InteractorOnProtobuf,
     private val interactorOnGrpc: InteractorOnGrpc
 ) {
     private val logger = LoggerFactory.getLogger(HttpController::class.java)
 
-    @GetMapping("greet")
-    fun greet(@RequestParam(required = true) name: String) = interact(interactorOnProtobuf, name)
+    @GetMapping("greet-via-protobuf")
+    fun greetWithProtobuf(@RequestParam(required = true) name: String): String = interact(interactorOnProtobuf) {
+        GreetingRequest.newBuilder()
+            .setName(name)
+            .setAuthor("SPRING_CLIENT_APP")
+            .setMessage("I see you are using Protocol Buffers!")
+            .setOrder(ActionOrderSingleton.order.incrementAndGet())
+            .build()
+    }.greet
 
     @GetMapping("greet-via-grpc")
-    fun greetWithGrpc(@RequestParam(required = true) name: String) = interact(interactorOnGrpc, name)
+    fun greetWithGrpc(@RequestParam(required = true) name: String): String = interact(interactorOnGrpc) {
+        GreetingRequest.newBuilder()
+            .setName(name)
+            .setAuthor("SPRING_CLIENT_APP")
+            .setMessage("I see you are using gRPC!")
+            .setOrder(ActionOrderSingleton.order.incrementAndGet())
+            .build()
+    }.greet
+
+    @GetMapping("greet-via-json")
+    fun greetWithJson(@RequestParam(required = true) name: String): String = interact(interactorOnJson) {
+        JsonRequest(
+            name = name,
+            author = "SPRING_CLIENT_APP",
+            message = "I see you are using JSON!",
+            order = ActionOrderSingleton.order.incrementAndGet()
+        )
+    }.greet
 
     /*
      */
-    private fun interact(
-        interactor: Interactor<GreetingRequest, GreetingResponse>,
-        name: String
-    ): String {
-        logger.info(
-            "Greeting request for name {}", name
+    private fun <Q, A> interact(
+        interactor: Interactor<Q, A>,
+        request: () -> Q
+    ): A {
+        logger.debug(
+            "Greeting request {}", interactor::class.java.simpleName
         )
-
-        return interactor.interact(
-            GreetingRequest.newBuilder()
-                .setName(name)
-                .setAuthor("SPRING_CLIENT_APP")
-                .setMessage("I see you!")
-                .setOrder(ActionOrderSingleton.order.incrementAndGet())
-                .build()
-        ).greet
+        return interactor.interact(request.invoke())
     }
 }
