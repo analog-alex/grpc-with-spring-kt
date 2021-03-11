@@ -18,5 +18,7 @@ message GreetingResponse {
 
 service GreetingService {
   rpc sayHello (GreetingRequest) returns (GreetingResponse) {}
+  rpc sayHellos (GreetingRequest) returns (stream GreetingResponse) {}
 }
+
 

@@ -61,4 +61,17 @@ class HttpController(
         )
         return interactor.interact(request.invoke())
     }
+
+
+    // -----------------
+
+
+    @GetMapping("greets-via-rpc-stream")
+    fun greetsStream(@RequestParam(required = true) name: String): String = interactorOnGrpc.interactStream(GreetingRequest.newBuilder()
+        .setName(name)
+        .setAuthor("SPRING_CLIENT_APP")
+        .setMessage("I see you are using Protocol Buffers!")
+        .setOrder(ActionOrderSingleton.order.incrementAndGet())
+        .build())
+        .let { "We are now listening to the gRPC server stream!" }
 }

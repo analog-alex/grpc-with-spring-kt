@@ -17,4 +17,19 @@ class GreetingService : GreetingServiceGrpc.GreetingServiceImplBase() {
         responseObserver.onNext(response)
         responseObserver.onCompleted()
     }
+
+    override fun sayHellos(request: GreetingRequest, responseObserver: StreamObserver<GreetingResponse>) {
+
+        (1..100).forEach { index ->
+            responseObserver.onNext(
+                GreetingResponse
+                    .newBuilder()
+                    .setGreet("We are greeting ${request.name}, with a message: ${request.message}, Index $index")
+                    .build()
+            )
+            Thread.sleep(500)
+        }
+
+        responseObserver.onCompleted()
+    }
 }
