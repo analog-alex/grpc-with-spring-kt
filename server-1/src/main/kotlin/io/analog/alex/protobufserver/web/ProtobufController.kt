@@ -1,7 +1,7 @@
 package io.analog.alex.protobufserver.web
 
-import io.analog.alex.grpcserver.GreetingRequest
-import io.analog.alex.grpcserver.GreetingResponse
+import io.analog.alex.protobufserver.GreetingRequest
+import io.analog.alex.protobufserver.GreetingResponse
 import io.analog.alex.protobufserver.configuration.MediaTypeExtended
 import io.analog.alex.protobufserver.models.JsonRequest
 import io.analog.alex.protobufserver.models.JsonResponse

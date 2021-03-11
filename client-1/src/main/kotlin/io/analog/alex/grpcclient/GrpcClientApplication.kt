@@ -6,4 +6,6 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class GrpcClientApplication
 
-fun main() { runApplication<GrpcClientApplication>() }
+fun main() {
+    runApplication<GrpcClientApplication>()
+}
